@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'skyblue',
     marginRight: 10,
   },
+ 
 });
 
 export default NosReservation;

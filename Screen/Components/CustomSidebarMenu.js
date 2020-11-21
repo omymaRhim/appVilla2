@@ -1,14 +1,15 @@
 import React from 'react';
-
+import { useAppContext } from '../../AppContext';
 //Import all required component
 import { View, StyleSheet, Text, Alert } from 'react-native';
 //import AsyncStorage from '@react-native-community/async-storage';
 
 const CustomSidebarMenu = props => {
+  const {reservation,currentUser} =useAppContext();
   let items = [
     {
-      navOptionName: 'Calendrier',
-      screenToNavigate: 'HomeScreen',
+      navOptionName: 'Home',
+      screenToNavigate: 'Home',
     },
     {
       navOptionName: 'Effectuer Une Réservation',
@@ -20,7 +21,7 @@ const CustomSidebarMenu = props => {
     },
     
     {
-      navOptionName: 'Se Déconnecté',
+      navOptionName: 'Se Déconnecter',
       screenToNavigate: 'logout',
     },
   ];
@@ -61,9 +62,10 @@ const CustomSidebarMenu = props => {
         <View style={stylesSidebar.profileHeaderPicCircle}>
           <Text style={{ fontSize: 25, color: '#30cc57' }}>
             {'Villa Verde'.charAt(0)}
+            
           </Text>
         </View>
-        <Text style={stylesSidebar.profileHeaderText}>Villa Verde</Text>
+        <Text style={stylesSidebar.profileHeaderText}>{currentUser?.name}</Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
       <View style={{ width: '100%', flex: 1 }}>

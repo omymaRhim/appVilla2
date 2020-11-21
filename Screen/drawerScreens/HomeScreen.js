@@ -37,7 +37,7 @@ const HomeScreen = () => {
       .then((data) => {
         let reservationsDates = data?.data?.map((res) => {
           return {
-            start: res?.chekin?.split('-')?.reverse()?.join('-'),
+            start: res?.chekin?.split('-')?.reverse()?.join('-'),//11-11-2020 -> 2020-11-11
             end: res?.chekout?.split('-')?.reverse()?.join('-'),
           };
         });

@@ -7,6 +7,7 @@ import { NavigationActions } from 'react-navigation';
 
 import image from '../../Image/success.png';
 import { BASE_URL } from '../utils/Constant';
+import ColorPanel from 'react-native-color-panel';
 
 
 //import moment from "moment";
@@ -77,7 +78,7 @@ const ReservationScreen = props => {
   */}
 
 
-    fetch(BASE_URL+"/customers/create", {
+    fetch(BASE_URL + "/customers/create", {
       method: 'POST',
       //body: formBody,
       headers: {
@@ -120,7 +121,7 @@ const ReservationScreen = props => {
         setUserAvance('');
         setUserAvanceC('');
         setUserDetail('');
-        
+
 
         //setLoading(false);
         console.log(responseJson);
@@ -235,6 +236,7 @@ const ReservationScreen = props => {
           returnKeyType="next"
         />
       </View>
+     
       {/*
       <BouncyCheckbox
         isChecked={false}

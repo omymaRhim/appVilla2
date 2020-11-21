@@ -5,10 +5,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
 //Import External Screens
+import Home from './drawerScreens/Home';
 import HomeScreen from './drawerScreens/HomeScreen';
 import ReservationScreen from './drawerScreens/ReservationScreen';
 import Reservationdone from './drawerScreens/Reservationdone';
 import NosReservation from './drawerScreens/NosReservation';
+
 
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
@@ -19,7 +21,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
   First: {
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
-      title: 'Home Screen',
+      title: 'HomeScreen ',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#007a02',
@@ -82,6 +84,19 @@ const FiveActivity_StackNavigator =createStackNavigator({
     }),
   },
 });
+const SixActivity_StackNavigator =createStackNavigator({
+  First: {
+    screen: Home,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Home',
+      headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#007a02',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
 
 
 const DrawerNavigatorRoutes = createDrawerNavigator(
@@ -89,7 +104,7 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
     HomeScreen: {
       screen: FirstActivity_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Home Screen',
+        drawerLabel: 'HomeScreen',
       },
     },
     ReservationScreen: {
@@ -116,7 +131,12 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
         drawerLabel: 'Détails Réservation ',
       },
     },
-   
+    Home: {
+      screen: SixActivity_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Home ',
+      },
+    },
     
   
     

@@ -61,7 +61,7 @@ const LoginScreen = props => {
         //  AsyncStorage.setItem('token', data.token);
           console.log({responseJson})
           setCurrentUser(responseJson?.data?.user);
-          props.navigation.navigate('HomeScreen');
+          props.navigation.navigate('Home');
         } else {
           setErrortext('Invalid Email ou Password ');
           console.log('Merci de vérifier votre email ou mot de passe');

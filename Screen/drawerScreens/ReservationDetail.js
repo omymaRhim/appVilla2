@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
 import { useAppContext } from '../../AppContext';
 
 const DetailItem =({label,value})=>{
@@ -16,18 +16,29 @@ export default function ReservationDetail(props) {
    
  
   return (
-    <View style={styles.container}>
-
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' }}>
+    
+     <TouchableOpacity onPress={() =>  props.navigation.navigate('NosReservation')}>
+     <Text style={styles.headerStyle}>Retour</Text>
+     </TouchableOpacity>
+     
+     <View style={styles.container}>
       <DetailItem label="Nom" value={reservation?.lastname} />
       <DetailItem label="Prénom" value={reservation?.firstname} />
       <DetailItem label="Email" value={reservation?.email} />
-      <DetailItem label="Avance" value={reservation?.avance} />
+      <DetailItem label="Tel" value={reservation?.tel} />
       <DetailItem label="Logement" value={reservation?.logement} />
-      <DetailItem label="chekin" value={reservation?.chekout} />
+      <DetailItem label="Nbre de personnes" value={reservation?.nbrepersonne} />
+      <DetailItem label="chekin" value={reservation?.chekin} />
       <DetailItem label="chekout" value={reservation?.chekout} />
       <DetailItem label="Prix" value={reservation?.price} />
-      <DetailItem label="Commerçant" value={currentUser?.name} />
-    </View>
+      <DetailItem label="Avance" value={reservation?.avance} />
+      <DetailItem label="Avance Complémentaire" value={reservation?.avanceC} />
+      <DetailItem label="Autre détail" value={reservation?.detail} />
+      <DetailItem label="Commercial" value={currentUser?.name} />
+      </View>
+      </View>
+    
   );
 }
 const styles = StyleSheet.create({
@@ -35,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  
   title: {
     fontSize: 14,
   },
@@ -42,4 +54,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft:10
   },
+  headerStyle: {
+    backgroundColor: '#ffffff',
+    
+  },
+
 });
