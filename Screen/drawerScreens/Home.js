@@ -1,114 +1,61 @@
 import React from 'react';
-import { NavigationActions } from 'react-navigation';
-import {
-  Text,
-  View,
-  Button,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from 'react-native';
-import { useState, useEffect } from 'react';
-import { BASE_URL } from '../utils/Constant';
-import image1 from '../../Image/Villa1.png'
-import image2 from '../../Image/Villa2.png'
-import image3 from '../../Image/Cabane.png'
-
-const Home = ({navigation}) => {
-  const DetailItem =({label,value})=>{
-    return  <View >
-    <Text style={styles.tilte}>{label} :</Text>
-     <Text style={styles.subTitle}>{value  }</Text> 
-  </View>
-  }
-  function navigate(){
-    navigation.navigate("HomeScreen")
-  }
-  const [objJson, setobjJson] = useState([]);
-  useEffect(() => {
-    fetch(BASE_URL + '/customers/getLogement')
-      .then((response) => response.json())
-      .then((data) => {
-
-        console.log("data",data.data)
-        setobjJson(data.data);
-      })
-
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
-  }, );
- 
+import {View, Text,TouchableOpacity} from 'react-native';
+import {Agenda, Calendar} from 'react-native-calendars';
+import {useState, useEffect} from 'react';
+import {TextInput} from 'react-native-gesture-handler';
+import {BASE_URL} from '../utils/Constant';
+import moment from 'moment';
+import {useAppContext} from '../../AppContext';
+const TabItem = ({title, value}) => {
+  const {activeLangment,setActiveLangement} =useAppContext();
+  const style = {
+    padding: 10,
+    borderBottomWidth: 4,
+    borderColor: activeLangment ==value ? 'green' :"white",
+  };
   return (
-    <ScrollView>
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' ,padding:5,borderBottomWidth:1}}> 
-    
-      <DetailItem label="Logement" value="Villa1" />
-      <DetailItem label="Description" value="Description" />
-      <Image
-        source={image1}
-        style={{height: 150, resizeMode: "center",height:100,width: 600,  }}
-      />
-       <TouchableOpacity onPress={navigate}>
-        <View>
-          <Text>Voir Calendrier</Text>
-        </View>
-      </TouchableOpacity>
+    <TouchableOpacity style={style} onPress={()=>setActiveLangement(value)}>
+      <Text>{title}</Text>
+    </TouchableOpacity>
+  );
+};
+const Tabs = () => {
+  const arrayLangement = [
+    {
+      title: 'Villa 1',
+      value: 'Villa 1',
+    },
+    {
+      title: 'Villa 2',
+      value: 'Villa 2',
+    },
+    {
+      title: 'Cabane',
+      value: 'Cabane',
+    },
+  ];
+  const style = {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    elebvation: 1,
+  };
+  return (
+    <View style={style}>
+      {arrayLangement?.map((item) => (
+        <TabItem {...item} key={item.value} />
+      ))}
     </View>
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' ,padding:5,borderBottomWidth:1}}> 
-    
-      <DetailItem label="Logement" value="Villa2" />
-      <DetailItem label="Description" value="Description" />
-      <Image
-        source={image2}
-        style={{height: 150, resizeMode: "center",height:150,width: 600,  }}
-      />
-      <TouchableOpacity onPress={navigate}>
-        <View>
-          <Text>Voir Calendrier</Text>
-        </View>
-      </TouchableOpacity>
+  );
+};
+const HomeScreen = () => {
+  const {objJson} = useAppContext();
+  return (
+    <View style={{flex: 1}}>
+      <Tabs />
+      <Calendar markingType={'period'} markedDates={{...objJson}} />
     </View>
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' ,padding:5,borderBottomWidth:1}}> 
-    
-      <DetailItem label="Logement" value="Cabane" />
-      <DetailItem label="Description" value="Description" />
-      <Image
-        source={image3}
-        style={{height: 150, resizeMode: "center",height:100,width: 600,  }}
-      />
-      <TouchableOpacity onPress={navigate}>
-        <View>
-          <Text>Voir Calendrier</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-    </ScrollView>
-  )
+  );
 };
 
-
-const styles = StyleSheet.create({
- 
-    container: {
-      flex: 1,
-      padding: 10,
-    },
-    
-    title: {
-      fontSize: 14,
-    },
-    subTitle: {
-      fontSize: 12,
-      marginLeft:10
-    },
-    headerStyle: {
-      backgroundColor: '#ffffff',
-      
-    },
-})
-export default Home;
+export default HomeScreen;

@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavigationActions} from 'react-navigation';
+import DatePicker from 'react-native-datepicker';
 import {
   Text,
   View,
@@ -12,18 +13,26 @@ import {
 } from 'react-native';
 import {useState, useEffect} from 'react';
 import {BASE_URL} from '../utils/Constant';
-import { useAppContext } from '../../AppContext';
+import {useAppContext} from '../../AppContext';
 
-const ResevationItem = ({_id, lastname, firstname, email,navigation,...others}) => {
-  const {setReservation} =useAppContext();
+const ResevationItem = ({
+  _id,
+  lastname,
+  firstname,
+  email,
+  navigation,
+  ...others
+}) => {
+  const {setReservation} = useAppContext();
   const style = {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   };
-  function navigate(){
-    setReservation({lastname,firstname,email,...others})
-    navigation.navigate("ReservationDetail")
+  function navigate() {
+    setReservation({lastname, firstname, email, ...others});
+    navigation.navigate('ReservationDetail');
   }
+
   return (
     <View style={styles.reservationItemContainer}>
       <View>
@@ -41,7 +50,11 @@ const ResevationItem = ({_id, lastname, firstname, email,navigation,...others}) 
 };
 const NosReservation = ({navigation}) => {
   const [objJson, setobjJson] = useState([]);
-  useEffect(() => {
+  const [date1, setDate] = React.useState(null);
+  function handleChangDate(d) {
+    setDate(d);
+  }
+  function fetchReservation() {
     fetch(BASE_URL + '/customers/find')
       .then((response) => response.json())
       .then((data) => {
@@ -53,14 +66,62 @@ const NosReservation = ({navigation}) => {
         setLoading(false);
         console.error(error);
       });
+  }
+  useEffect(() => {
+    fetchReservation();
   }, []);
+  const datePickerStyle = {
+    width: 250,
+    marginTop: 15,
+    //borderWidth: 1,
+    borderRadius: 15,
+    borderColor: 'black',
+  };
+
+  let res = objJson;
+  if (date1) {
+    res = objJson.filter((res) => {
+      return String(res?.chekin) === String(date1);
+    });
+  }
+
   return (
     <View style={styles.container}>
+      <View>
+        <DatePicker
+          style={datePickerStyle}
+          date={date1} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          value={date1}
+          //minDate="01-01-2016"
+          //maxDate="01-01-2019"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+          }}
+          onDateChange={(date1) => {
+            handleChangDate(date1);
+            console.log({date1});
+          }}
+        />
+      </View>
       <ScrollView>
-        {objJson?.map((item) => {
+        {res?.map((item) => {
           console.log({item});
 
-          return <ResevationItem {...item} navigation={navigation}/>;
+          return <ResevationItem {...item} navigation={navigation} />;
         })}
       </ScrollView>
     </View>
@@ -99,7 +160,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'skyblue',
     marginRight: 10,
   },
- 
 });
 
 export default NosReservation;

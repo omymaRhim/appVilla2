@@ -1,86 +1,116 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Agenda, Calendar} from 'react-native-calendars';
-import {useState, useEffect} from 'react';
-import {TextInput, TouchableOpacity, Text} from 'react-native-gesture-handler';
-import {BASE_URL} from '../utils/Constant';
-import * as lodash from 'lodash';
-import moment from 'moment';
-const HomeScreen = () => {
-  //const [date, setdate] = useState([])
-  const [objJson, setobjJson] = useState(null);
-  function getDates(startDate, endDate) {
-    var dates = [],
-      currentDate = startDate,
-      addDays = function (days) {
-        var date = new Date(this.valueOf());
-        date.setDate(date.getDate() + days);
-        return date;
-      };
+import { NavigationActions } from 'react-navigation';
+import {
+  Text,
+  View,
+  Button,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import { BASE_URL } from '../utils/Constant';
+import image1 from '../../Image/Villa1.png'
+import image2 from '../../Image/Villa2.png'
+import image3 from '../../Image/Cabane.png'
 
-    while (currentDate <= endDate) {
-      dates.push(currentDate);
-      console.log({currentDate});
-      currentDate = addDays.call(currentDate, 1);
-    }
 
-    return dates;
+
+const Home = ({navigation}) => {
+  const DetailItem =({label,value})=>{
+    return  <View >
+    <Text style={styles.tilte}>{label} :</Text>
+     <Text style={styles.subTitle}>{value  }</Text> 
+  </View>
   }
-
-  function transformDate(date) {
-    const [day, month, year] = date.split('-');
-    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  function navigate(){
+    navigation.navigate("HomeScreen")
   }
+  const [objJson, setobjJson] = useState([]);
   useEffect(() => {
-    fetch(BASE_URL + '/customers/getreservation')
+    fetch(BASE_URL + '/customers/getLogement')
       .then((response) => response.json())
       .then((data) => {
-        let reservationsDates = data?.data?.map((res) => {
-          return {
-            start: res?.chekin?.split('-')?.reverse()?.join('-'),//11-11-2020 -> 2020-11-11
-            end: res?.chekout?.split('-')?.reverse()?.join('-'),
-          };
-        });
-        let allDates = reservationsDates
-          ?.map((item) => {
-            return getDates(
-              transformDate(item?.start),
-              transformDate(item?.end),
-            );
-          })
-          ?.map((item) => item);
 
-        allDates = lodash
-          .flatten(allDates)
-          ?.map((item) => moment(item).format('YYYY-MM-DD'));
-        let finalDatesCalandar = allDates?.map((item) => {
-          return {
-            [item]: {
-              disabled: true,
-              marked: true,
-              color: 'red',
-              selectedColor: '#000',
-            },
-          };
-        });
-        let obj = {};
-        finalDatesCalandar?.forEach((item) => {
-          obj = {...obj, ...item};
-        });
+        console.log("data",data.data)
+        setobjJson(data.data);
+      })
 
-        setobjJson(obj);
+      .catch((error) => {
+        //Hide Loader
+        setLoading(false);
+        console.error(error);
       });
-  }, []);
-
+  }, );
+ 
   return (
-    <View style={{flex: 1}}>
-      <Calendar
-        markingType={'period'}
-        markedDates={{...objJson}}
-       
+    <ScrollView>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' ,padding:5,borderBottomWidth:1}}> 
+    
+      <DetailItem label="Logement" value="Villa1" />
+      <DetailItem label="Description" value="Description" />
+      <Image
+        source={image1}
+        style={{height: 150, resizeMode: "center",height:100,width: 600,  }}
       />
+       <TouchableOpacity onPress={navigate}>
+        <View>
+          <Text>Voir Calendrier</Text>
+        </View>
+      </TouchableOpacity>
     </View>
-  );
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' ,padding:5,borderBottomWidth:1}}> 
+    
+      <DetailItem label="Logement" value="Villa2" />
+      <DetailItem label="Description" value="Description" />
+      <Image
+        source={image2}
+        style={{height: 150, resizeMode: "center",height:150,width: 600,  }}
+      />
+      <TouchableOpacity onPress={navigate}>
+        <View>
+          <Text>Voir Calendrier</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF50' ,padding:5,borderBottomWidth:1}}> 
+    
+      <DetailItem label="Logement" value="Cabane" />
+      <DetailItem label="Description" value="Description" />
+      <Image
+        source={image3}
+        style={{height: 150, resizeMode: "center",height:100,width: 600,  }}
+      />
+      <TouchableOpacity onPress={navigate}>
+        <View>
+          <Text>Voir Calendrier</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+    </ScrollView>
+  )
 };
 
-export default HomeScreen;
+
+const styles = StyleSheet.create({
+ 
+    container: {
+      flex: 1,
+      padding: 10,
+    },
+    
+    title: {
+      fontSize: 14,
+    },
+    subTitle: {
+      fontSize: 12,
+      marginLeft:10
+    },
+    headerStyle: {
+      backgroundColor: '#ffffff',
+      
+    },
+})
+export default Home;
