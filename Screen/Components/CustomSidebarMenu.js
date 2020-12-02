@@ -3,6 +3,7 @@ import { useAppContext } from '../../AppContext';
 //Import all required component
 import { View, StyleSheet, Text, Alert } from 'react-native';
 //import AsyncStorage from '@react-native-community/async-storage';
+import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
 
 const CustomSidebarMenu = props => {
   const {reservation,currentUser} =useAppContext();
@@ -24,6 +25,7 @@ const CustomSidebarMenu = props => {
       navOptionName: 'Se Déconnecter',
       screenToNavigate: 'logout',
     },
+  
   ];
 
   const handleClick = (index, screenToNavigate) => {

@@ -48,7 +48,7 @@ const Tabs = () => {
     </View>
   );
 };
-const HomeScreen = () => {
+const Home = () => {
   const {objJson} = useAppContext();
   return (
     <View style={{flex: 1}}>
@@ -58,4 +58,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default Home;

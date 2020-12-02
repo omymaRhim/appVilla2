@@ -8,13 +8,14 @@ import { NavigationActions } from 'react-navigation';
 import image from '../../Image/success.png';
 import { BASE_URL } from '../utils/Constant';
 import ColorPanel from 'react-native-color-panel';
+import moment from 'moment';
 
 
 //import moment from "moment";
 //import { render } from 'react-dom';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 //import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-//import BouncyCheckbox from "react-native-bouncy-checkbox";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 const ReservationScreen = props => {
@@ -33,6 +34,7 @@ const ReservationScreen = props => {
   let [userAvanceC, setUserAvanceC] = useState('');
   let [userDetail, setUserDetail] = useState('');
   let [errortext, setErrortext] = useState('');
+  let [paid,setPaid] =useState(false);
   let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
   const initialState = {
@@ -99,8 +101,10 @@ const ReservationScreen = props => {
         chekout: date1,
         price: userPrice,
         avance: userAvance,
+        paid:paid,
         avanceC: userAvanceC,
         detail: userDetail,
+        
 
       })
 
@@ -217,8 +221,8 @@ const ReservationScreen = props => {
           onValueChange={userLogement => setUserLogement(userLogement)}
           value={userLogement}
           items={[
-            { label: 'V1', value: 'Villa 1' },
-            { label: 'V2', value: 'Villa 2' },
+            { label: 'Villa 1', value: 'Villa 1' },
+            { label: 'Villa 2', value: 'Villa 2' },
             { label: 'Cabane', value: 'Cabane' },
             { label: 'All', value: 'All' },
           ]}
@@ -236,16 +240,10 @@ const ReservationScreen = props => {
           returnKeyType="next"
         />
       </View>
-     
-      {/*
-      <BouncyCheckbox
-        isChecked={false}
-        textColor="#000"
-        fillColor="blue"
-        text="Buy tickets for concert "
-        onPress={(checked) => console.log("Checked: ", checked)}
-      />
-      */}
+
+      
+      
+      
 
 
       <View style={styles.container}>
@@ -307,15 +305,42 @@ const ReservationScreen = props => {
               marginLeft: 36,
             },
           }}
+          
           onDateChange={(date1) => {
             setDate1(date1);
+            console.log(date1, date, userLogement, userAvance,userNbreper)
+            var now = moment(date); //todays date
+            var end = moment(date1); // another date
+            var duration = moment.duration(now.diff(end));
+            var days = duration.asDays();
+            console.log(days)
+            
+            if (userLogement=="Villa 1"){
+              prix=160*userNbreper*days
+            }
+            
+            else if(userLogement=="Villa 2"){
+              prix=120*userNbreper*days
+            }
+            
+            else if(userLogement=="Cabane"){
+              prix=200*userNbreper*days
+            }
+            
+          console.log(prix)
+            
+          setUserPrice(Math.abs(prix)+"")
+          var avance=prix*0.3
+          console.log(avance)
+          setUserAvance(Math.abs(avance)+"")
+
           }}
+          
         />
       </View>
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={userPrice => setUserPrice(userPrice)}
           value={userPrice}
           placeholder="Prix"
           placeholderTextColor="#CCCCCC"
@@ -327,7 +352,7 @@ const ReservationScreen = props => {
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={userAvance => setUserAvance(userAvance)}
+          //onChangeText={userAvance => setUserAvance(userAvance)}
           value={userAvance}
           placeholder="Avance 30%"
           placeholderTextColor="#CCCCCC"
@@ -337,6 +362,16 @@ const ReservationScreen = props => {
           returnKeyType="next"
         />
       </View>
+      <View style={styles.SectionStyle}>
+      <BouncyCheckbox
+        isChecked={paid}
+        textColor="#000"
+        fillColor="green"
+        text="payée "
+        onPress={(checked) => setPaid(checked)}
+      />
+      </View>
+
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}

@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet,TouchableOpacity,Image} from 'react-native';
 import { useAppContext } from '../../AppContext';
+import image from '../../Image/retour.png'
 
 const DetailItem =({label,value})=>{
     return  <View style={{flexDirection:"row",padding:10,borderBottomWidth:1,borderColor:"#ddd"}}>
@@ -19,7 +20,11 @@ export default function ReservationDetail(props) {
     <View style={{ flex: 1, backgroundColor: '#FFFFFF50' }}>
     
      <TouchableOpacity onPress={() =>  props.navigation.navigate('NosReservation')}>
-     <Text style={styles.headerStyle}>Retour</Text>
+     {/*<Image
+          source={image}
+          style={{ width: 35, height: 35, marginLeft: 5 }}
+     />*/}
+     
      </TouchableOpacity>
      
      <View style={styles.container}>
@@ -44,7 +49,7 @@ export default function ReservationDetail(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 20,
   },
   
   title: {
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     marginLeft:10
   },
   headerStyle: {
-    backgroundColor: '#ffffff',
+    //backgroundColor: '#ffffff',
     
   },
 

@@ -18,7 +18,7 @@ import image3 from '../../Image/Cabane.png'
 
 
 
-const Home = ({navigation}) => {
+const HomeScreen = ({navigation}) => {
   const DetailItem =({label,value})=>{
     return  <View >
     <Text style={styles.tilte}>{label} :</Text>
@@ -26,7 +26,7 @@ const Home = ({navigation}) => {
   </View>
   }
   function navigate(){
-    navigation.navigate("HomeScreen")
+    navigation.navigate("Home")
   }
   const [objJson, setobjJson] = useState([]);
   useEffect(() => {
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
       
     },
 })
-export default Home;
+export default HomeScreen;

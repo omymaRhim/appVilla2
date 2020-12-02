@@ -9,6 +9,9 @@ const AppProvider = (props) => {
   const [reservations, setReservations] = React.useState([]);
   const [activeLangment,setActiveLangement] =React.useState("Villa 1")
   const [objJson, setobjJson] = React.useState(null);
+  
+
+
   function getDates(startDate, endDate) {
     var dates = [],
       currentDate = startDate,
@@ -31,8 +34,27 @@ const AppProvider = (props) => {
     const [day, month, year] = date.split('-');
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   }
-  React.useEffect(() => {
+  function isBetween(date,start,end){
+    let ok =false
+    if(moment(date).valueOf() >=moment(start) && moment(date).valueOf() <=moment(end).valueOf()){
+        ok= true;
+    }
+    return ok;
     
+  }
+  function getColor({data,start}){
+    let color ="#FF7221";
+    data?.forEach((item,index) =>{
+      if(isBetween(start,item.chekin,item.chekout)){
+  
+        if(item?.paid ===true){
+          color ="red"
+        }
+      }});
+      return color;
+  }
+ 
+  React.useEffect(() => {
     fetch(BASE_URL + '/customers/getreservation',{
       method: "post",
       headers: {
@@ -46,12 +68,16 @@ const AppProvider = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        
         let reservationsDates = data?.data?.map((res) => {
           return {
+           
             start: res?.chekin?.split('-')?.reverse()?.join('-'), //11-11-2020 -> 2020-11-11
             end: res?.chekout?.split('-')?.reverse()?.join('-'),
           };
         });
+
+
         let allDates = reservationsDates
           ?.map((item) => {
             return getDates(
@@ -60,7 +86,7 @@ const AppProvider = (props) => {
             );
           })
           ?.map((item) => item);
-
+  
         allDates = lodash
           .flatten(allDates)
           ?.map((item) => moment(item).format('YYYY-MM-DD'));
@@ -68,22 +94,33 @@ const AppProvider = (props) => {
           return {
             [item]: {
               disabled: true,
-              marked: true,
-              color: 'red',
+              //startingDay: true,
+              //endingDay: true,
+              //marked: true,
+              color:getColor(
+                {
+                  data:data?.data,
+                  start:item
+                }
+              ),
               selectedColor: '#000',
             },
           };
         });
-
+  
         let obj = {};
         finalDatesCalandar?.forEach((item) => {
           obj = {...obj, ...item};
         });
         console.log({obj});
-
+  
         setobjJson(obj);
       });
+   
   }, [activeLangment]);
+  
+ 
+
   return (
     <AppContext.Provider
       value={{

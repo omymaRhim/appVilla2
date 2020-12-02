@@ -24,7 +24,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
       title: 'HomeScreen ',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#007a02',
+        backgroundColor: '#03A176',
       },
       headerTintColor: '#fff',
     }),
@@ -38,7 +38,7 @@ const SecondActivity_StackNavigator = createStackNavigator({
       title: 'Reservation Screen',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#007a02',
+        backgroundColor: '#03A176',
       },
       headerTintColor: '#fff',
     }),
@@ -91,7 +91,7 @@ const SixActivity_StackNavigator =createStackNavigator({
       title: 'Home',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#007a02',
+        backgroundColor: '#03A176',
       },
       headerTintColor: '#fff',
     }),

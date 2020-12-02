@@ -33,6 +33,7 @@ const ResevationItem = ({
     navigation.navigate('ReservationDetail');
   }
 
+
   return (
     <View style={styles.reservationItemContainer}>
       <View>
@@ -48,9 +49,11 @@ const ResevationItem = ({
     </View>
   );
 };
+
 const NosReservation = ({navigation}) => {
   const [objJson, setobjJson] = useState([]);
   const [date1, setDate] = React.useState(null);
+ 
   function handleChangDate(d) {
     setDate(d);
   }
@@ -84,12 +87,14 @@ const NosReservation = ({navigation}) => {
       return String(res?.chekin) === String(date1);
     });
   }
+  
 
   return (
     <View style={styles.container}>
+     
       <View>
         <DatePicker
-          style={datePickerStyle}
+          style={styles.datePickerStyle}
           date={date1} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -117,6 +122,7 @@ const NosReservation = ({navigation}) => {
           }}
         />
       </View>
+      
       <ScrollView>
         {res?.map((item) => {
           console.log({item});
@@ -124,21 +130,33 @@ const NosReservation = ({navigation}) => {
           return <ResevationItem {...item} navigation={navigation} />;
         })}
       </ScrollView>
+   
     </View>
   );
 };
-
+//
 const styles = StyleSheet.create({
   reservationItemContainer: {
     elevation: 1,
     backgroundColor: '#f1f1f1',
     height: 100,
-    marginTop: 5,
-    padding: 5,
+    marginTop: 15,
+    padding: 15,
   },
   container: {
     flex: 1,
+    //flexDirection: 'row',
     padding: 10,
+    //justifyContent: 'space-between',
+    //alignItems: 'center',
+  },
+  datePickerStyle: {
+    width: 200,
+    marginTop: 15,
+    //borderWidth: 1,
+    borderRadius: 15,
+    borderColor: 'black',
+   
   },
   wrapper: {
     flex: 1,

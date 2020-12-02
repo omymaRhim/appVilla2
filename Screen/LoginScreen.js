@@ -24,9 +24,7 @@ const LoginScreen = props => {
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
   const {setCurrentUser} =useAppContext();
-  React.useEffect(()=>{
-    props.navigation.navigate('Home');
-  },[])
+ 
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {

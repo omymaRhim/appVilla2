@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ant-design/icons": "^4.3.0",
     "@freakycoder/react-native-bounceable": "^0.2.4",
     "@freakycoder/react-native-multiple-select": "^0.2.0",
     "@material-ui/core": "^4.11.0",
@@ -22,6 +23,7 @@
     "react-native": "0.63.3",
     "react-native-bouncy-checkbox": "^1.0.8",
     "react-native-calendars": "^1.403.0",
+    "react-native-check-box": "^2.1.7",
     "react-native-color-panel": "^1.0.1",
     "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "^1.8.0",
